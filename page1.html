@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <title>Panorama Viewer</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    #container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .infospot-label {
+      font-size: 14px;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 5px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sử dụng đường dẫn tương đối để liên kết các tệp JavaScript -->
+  <script src="three.js"></script>
+  <script src="panolens.min.js"></script>
+
+  <div id="container"></div>
+
+  <script>
+    // Khởi tạo các biến
+    var panorama, viewer, container, infospot, infospot2;
+
+    // Lấy phần tử HTML chứa panorama
+    container = document.querySelector('#container');
+
+    // Tạo panorama từ hình ảnh
+    panorama = new PANOLENS.ImagePanorama('pic1.jpg');
+
+    // Tạo phần tử HTML cho tên infospot
+    function createInfospotLabel(text) {
+      var label = document.createElement('div');
+      label.className = 'infospot-label';
+      label.textContent = text;
+      return label;
+    }
+
+    // Tạo infospot thứ nhất và thêm sự kiện click
+    infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Info);
+    infospot.position.set(-3000, 100, -2000);
+    infospot.addHoverElement(createInfospotLabel('Xem lavabo'), 200);
+    infospot.addEventListener('click', function () {
+      console.log("Infospot 1 clicked");
+      window.location.href = 'index.html'; // Chuyển đến trang page1.html
+    });
+
+
+
+    // Thêm các infospot vào panorama
+    panorama.add(infospot, infospot2);
+
+    // Tạo viewer và thêm panorama vào viewer
+    viewer = new PANOLENS.Viewer({
+      container: container
+    });
+    viewer.add(panorama);
+  </script>
+
+</body>
+
+</html>
